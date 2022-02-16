@@ -55,7 +55,7 @@ public class ProductController {
         return service.update(product);
     }
     @PostMapping("/delete/{id}")
-    public Product_Category_Supplier delete(@PathVariable Long id,@RequestBody Long idUser){
+    public Product delete(@PathVariable Long id,@RequestBody Long idUser){
         return service.delete(id,idUser);
     }
 

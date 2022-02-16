@@ -7,6 +7,7 @@ import com.example.productservice.service.ProductService;
 import com.example.productservice.vo.Category;
 import com.example.productservice.vo.Product_Category_Supplier;
 import com.example.productservice.vo.Supplier;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private RestTemplate restTemplate;
-
+    @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findAll(Pageable pageable) {
         List<Product_Category_Supplier> list= new ArrayList<>();
@@ -39,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
         return repository.save(product);
     }
-
+    @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findByName(String name, Pageable pageable) {
         List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
@@ -48,21 +49,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
+    @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findByCategoryid(Long categoryId, Pageable pageable) {
         List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
         List<Product> productList= repository.findByCategoryIdAndDeletedAtIsNull(categoryId,pageable);
         return getProduct_category_suppliers(list, productList);
     }
-
+    @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findByCategoryAndNameLike(Long categoryId, String name, Pageable pageable) {
         List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
         List<Product> productList= repository.findByCategoryIdAndNameContainingAndDeletedAtIsNull(categoryId,name,pageable);
         return getProduct_category_suppliers(list, productList);
     }
-
+    @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findBySupplierId(Long id, Pageable pageable) {
         List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
@@ -70,35 +71,48 @@ public class ProductServiceImpl implements ProductService {
         return getProduct_category_suppliers(list, productList);
     }
 
+    @Retry(name = "basic")
     @Override
     public Product_Category_Supplier addProduct(Product product) {
         product.setCreatedAt(new Date());
-        Product p = repository.save(product);
         Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+product.getCategoryId(),Category.class) ;
         Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+product.getSupplierId(),Supplier.class);
-        return new Product_Category_Supplier(p,category,supplier);
+        if(category != null && supplier !=null){
+            Product p = repository.save(product);
+            return new Product_Category_Supplier(p,category,supplier);
+
+        }
+        return  null;
     }
 
+    @Retry(name = "basic")
     @Override
     public Product_Category_Supplier update(Product product) {
-        product.setUpdatedAt(new Date());
-        Product p = repository.save(product);
-        Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+p.getCategoryId(),Category.class) ;
-        Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+p.getSupplierId(),Supplier.class);
-        return new Product_Category_Supplier(p,category,supplier);
+
+        Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+product.getCategoryId(),Category.class) ;
+        Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+product.getSupplierId(),Supplier.class);
+        if(category != null && supplier !=null){
+            product.setUpdatedAt(new Date());
+            Product p = repository.save(product);
+            return new Product_Category_Supplier(p,category,supplier);
+
+        }
+        return null;
     }
 
     @Override
-    public Product_Category_Supplier delete(Long id,Long idUser) {
+    public Product delete(Long id,Long idUser) {
         Product product= repository.findById(id).get();
-        product.setDeletedAt(new Date());
-        product.setDeletedBy(idUser);
-        Product p= repository.save(product);
-        Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+p.getCategoryId(),Category.class) ;
-        Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+p.getSupplierId(),Supplier.class);
-        return new Product_Category_Supplier(p,category,supplier);
-    }
 
+        if(product != null ){
+            product.setDeletedAt(new Date());
+            product.setDeletedBy(idUser);
+            Product p= repository.save(product);
+
+        }
+        return product;
+    }
+    @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findByCategoryIdAndSupplierId(Long idCategory, Long idSupplier,Pageable pageable) {
         List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
@@ -107,6 +121,7 @@ public class ProductServiceImpl implements ProductService {
         return getProduct_category_suppliers(list,productList);
     }
 
+    @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findByCategoryAndSupplierAndName(Long idCategory, Long idSupplier, String name, Pageable pageable) {
         List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
@@ -124,4 +139,13 @@ public class ProductServiceImpl implements ProductService {
         }
         return list;
     }
+    public List<Product_Category_Supplier> getFallback(List<Product_Category_Supplier> list, List<Product> productList, RuntimeException runtimeException){
+        for (Product product :productList ) {
+            Product_Category_Supplier pcs= new Product_Category_Supplier();
+            pcs.setProduct(product);
+            list.add(pcs);
+        }
+        return list;
+    }
+
 }
