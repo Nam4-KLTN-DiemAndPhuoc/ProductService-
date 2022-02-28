@@ -14,16 +14,6 @@ public class AttributeController {
     @Autowired
     private AttributeService service;
 
-    @PostMapping
-    public List<Attribute> addAttribute(@RequestBody List<Attribute> attributes){
-        return  service.addAttribute(attributes);
-    }
-
-    @PostMapping("/update")
-    public List<Attribute> updateAttribute(@RequestBody List<Attribute> attributes){
-        return  service.updateAttribute(attributes);
-    }
-
     @GetMapping("/product/{id}")
     public List<Attribute> findByProductId(@PathVariable Long id){
         return service.findByProduct(id);
@@ -33,4 +23,6 @@ public class AttributeController {
     public Attribute findById(@PathVariable Long id){
         return  service.findById(id);
     }
+
+
 }

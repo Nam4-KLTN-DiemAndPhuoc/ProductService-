@@ -35,17 +35,20 @@ public class ProductController {
     public Product findByid(@PathVariable Long id){
         return service.findById(id);
     }
+
     @GetMapping("/search/{name}")
     public List<Product_Category_Supplier> findByName(@PathVariable String name,@RequestParam int page,@RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByName(name,pageable);
     }
+
     @GetMapping("/category/{id}/{name}")
     public List<Product_Category_Supplier> findByCategoryAndNameLike(@PathVariable Long id, @PathVariable String name,
                                                    @RequestParam int page, @RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryAndNameLike(id,name,pageable);
     }
+
     @PostMapping("/add")
     public Product_Category_Supplier add(@RequestBody Product product){
         return service.addProduct(product);
