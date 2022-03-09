@@ -36,8 +36,8 @@ public class ProductController {
         return service.findById(id);
     }
 
-    @GetMapping("/search/{name}")
-    public List<Product_Category_Supplier> findByName(@PathVariable String name,@RequestParam int page,@RequestParam int limit){
+    @GetMapping("/search")
+    public List<Product_Category_Supplier> findByName(@RequestParam String name,@RequestParam int page,@RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByName(name,pageable);
     }
@@ -48,20 +48,6 @@ public class ProductController {
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryAndNameLike(id,name,pageable);
     }
-
-    @PostMapping("/add")
-    public Product_Category_Supplier add(@RequestBody Product product){
-        return service.addProduct(product);
-    }
-    @PostMapping("/update")
-    public Product_Category_Supplier update(@RequestBody Product product){
-        return service.update(product);
-    }
-    @PostMapping("/delete/{id}")
-    public Product delete(@PathVariable Long id,@RequestBody Long idUser){
-        return service.delete(id,idUser);
-    }
-
     @GetMapping("/category/{idCategory}/supplier/{idSupplier}")
     public List<Product_Category_Supplier> findByCategoryAndSupplier(@PathVariable Long idCategory, @PathVariable Long idSupplier,
                                                                      @RequestParam int page, @RequestParam int limit){
