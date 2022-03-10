@@ -129,6 +129,15 @@ public class ProductServiceImpl implements ProductService {
         return getProduct_category_suppliers(list,productList);
     }
 
+    @Override
+    public List<Product_Category_Supplier> findTop3ProductByviewNumber() {
+        System.out.println("");
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList=repository.findTop3ProductByviewNumber();
+        System.out.println("ss"+ productList.get(1));
+        return getProduct_category_suppliers(list,productList);
+    }
+
 
     // get list product_categoru_supplier
     private List<Product_Category_Supplier> getProduct_category_suppliers(List<Product_Category_Supplier> list, List<Product> productList) {

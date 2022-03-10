@@ -22,4 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByCategoryIdAndSupplierIdAndDeletedAtIsNull(Long idCategory,Long idSupplier, Pageable pageable);
     List<Product> findByCategoryIdAndSupplierIdAndNameContainingAndDeletedAtIsNull(Long idCategory,Long idSupplier, String name,Pageable pageable);
+
+    @Query(value = "SELECT *  FROM productdb.product order by view_number desc limit 3", nativeQuery = true)
+    List<Product> findTop3ProductByviewNumber();
 }

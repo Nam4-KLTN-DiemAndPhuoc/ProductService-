@@ -61,4 +61,9 @@ public class ProductController {
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryAndSupplierAndName(idCategory,idSupplier,name,pageable);
     }
+
+    @GetMapping("/top3")
+    public List<Product_Category_Supplier> findTop3ProductByviewNumber(){
+        return  service.findTop3ProductByviewNumber();
+    }
 }

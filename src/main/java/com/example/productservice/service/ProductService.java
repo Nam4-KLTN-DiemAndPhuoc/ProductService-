@@ -20,4 +20,5 @@ public interface ProductService {
     List<Product_Category_Supplier>findByCategoryIdAndSupplierId(Long idCategory, Long idSupplier,Pageable pageable);
     List<Product_Category_Supplier>findByCategoryAndSupplierAndName(Long idCategory, Long idSupplier,String name,Pageable pageable);
 
+    List<Product_Category_Supplier> findTop3ProductByviewNumber();
 }
