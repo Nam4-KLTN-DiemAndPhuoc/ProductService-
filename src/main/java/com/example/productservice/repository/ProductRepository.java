@@ -12,11 +12,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findBySupplierIdAndDeletedAtIsNull(Long id, Pageable pageable);
 
     List<Product> findByNameContainingAndDeletedAtIsNull(String name,Pageable pageable);
-    List<Product> findProductsByNameContainingAndAndDeletedAtIsNullOrderByPriceAsc(String ten,Pageable pageable);
-    List<Product> findProductsByNameContainingAndAndDeletedAtIsNullOrderByPriceDesc(String ten,Pageable pageable);
+    List<Product> findProductsByNameContainingAndDeletedAtIsNullOrderByPriceAsc(String ten,Pageable pageable);
+    List<Product> findProductsByNameContainingAndDeletedAtIsNullOrderByPriceDesc(String ten,Pageable pageable);
 
-    List<Product> findAllByOrderByPriceAsc(Pageable pageable);
-    List<Product> findAllByOrderByPriceDesc(Pageable pageable);
+    List<Product> findByDeletedAtIsNullOrderByPriceAsc(Pageable pageable);
+    List<Product> findByDeletedAtIsNullOrderByPriceDesc(Pageable pageable);
+
+    List<Product> findByCategoryIdAndDeletedAtIsNullOrderByPriceDesc(Long id, Pageable pageable);
+    List<Product> findByCategoryIdAndDeletedAtIsNullOrderByPriceAsc(Long id, Pageable pageable);
+
+    List<Product> findByCategoryIdAndNameContainingAndDeletedAtIsNullOrderByPriceDesc(Long id,String name, Pageable pageable);
+    List<Product> findByCategoryIdAndNameContainingAndDeletedAtIsNullOrderByPriceAsc(Long id,String name, Pageable pageable);
+
+
 
     List<Product> findByCategoryIdAndNameContainingAndDeletedAtIsNull(Long id,String name, Pageable pageable);
 

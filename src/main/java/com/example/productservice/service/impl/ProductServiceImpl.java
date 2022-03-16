@@ -138,6 +138,62 @@ public class ProductServiceImpl implements ProductService {
         return getProduct_category_suppliers(list,productList);
     }
 
+    @Override
+    public List<Product_Category_Supplier> findAllOrderPriceAsc(Pageable pageable) {
+        List<Product_Category_Supplier> list= new ArrayList<>();
+        List<Product> listProduct =  repository.findByDeletedAtIsNullOrderByPriceAsc(pageable);
+        return getProduct_category_suppliers(list, listProduct);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findAllOrderPriceDesc(Pageable pageable) {
+        List<Product_Category_Supplier> list= new ArrayList<>();
+        List<Product> listProduct =  repository.findByDeletedAtIsNullOrderByPriceDesc(pageable);
+        return getProduct_category_suppliers(list, listProduct);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByCategoryidAsc(Long categoryId, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList= repository.findByCategoryIdAndDeletedAtIsNullOrderByPriceAsc(categoryId,pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByCategoryDesc(Long categoryId, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList= repository.findByCategoryIdAndDeletedAtIsNullOrderByPriceDesc(categoryId,pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByCategoryAndNameLikeAsc(Long categoryId, String name, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList= repository.findByCategoryIdAndNameContainingAndDeletedAtIsNullOrderByPriceAsc(categoryId,name,pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByCategoryAndNameLikeDesc(Long categoryId, String name, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList= repository.findByCategoryIdAndNameContainingAndDeletedAtIsNullOrderByPriceDesc(categoryId,name,pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByNameAsc(String name, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findProductsByNameContainingAndDeletedAtIsNullOrderByPriceAsc(name, pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByNameDesc(String name, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findProductsByNameContainingAndDeletedAtIsNullOrderByPriceDesc(name, pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
 
     // get list product_categoru_supplier
     private List<Product_Category_Supplier> getProduct_category_suppliers(List<Product_Category_Supplier> list, List<Product> productList) {

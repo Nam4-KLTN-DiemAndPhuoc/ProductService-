@@ -21,11 +21,37 @@ public class ProductController {
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findAll(pageable);
     }
+
+    @GetMapping("/asc")
+    public List<Product_Category_Supplier> findAllAsc(@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findAllOrderPriceAsc(pageable);
+    }
+
+    @GetMapping("/desc")
+    public List<Product_Category_Supplier> findAllDesc(@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findAllOrderPriceDesc(pageable);
+    }
+
     @GetMapping("/category/{id}")
     public List<Product_Category_Supplier> findByCategory(@PathVariable Long id,@RequestParam int page,@RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryid(id, pageable);
     }
+
+    @GetMapping("/category/asc/{id}")
+    public List<Product_Category_Supplier> findByCategoryAsc(@PathVariable Long id,@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByCategoryidAsc(id, pageable);
+    }
+
+    @GetMapping("/category/desc/{id}")
+    public List<Product_Category_Supplier> findByCategoryDesc(@PathVariable Long id,@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByCategoryDesc(id, pageable);
+    }
+
     @GetMapping("/supplier/{id}")
     public List<Product_Category_Supplier> findBySupplierId(@PathVariable Long id,@RequestParam int page,@RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
@@ -42,12 +68,39 @@ public class ProductController {
         return service.findByName(name,pageable);
     }
 
+    @GetMapping("/search/asc")
+    public List<Product_Category_Supplier> findByNameAsc(@RequestParam String name,@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByNameAsc(name,pageable);
+    }
+
+    @GetMapping("/search/desc")
+    public List<Product_Category_Supplier> findByNameDesc(@RequestParam String name,@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByNameDesc(name,pageable);
+    }
+
     @GetMapping("/category/{id}/{name}")
     public List<Product_Category_Supplier> findByCategoryAndNameLike(@PathVariable Long id, @PathVariable String name,
                                                    @RequestParam int page, @RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryAndNameLike(id,name,pageable);
     }
+
+    @GetMapping("/category/asc/{id}/{name}")
+    public List<Product_Category_Supplier> findByCategoryAndNameLikeAsc(@PathVariable Long id, @PathVariable String name,
+                                                                     @RequestParam int page, @RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByCategoryAndNameLikeAsc(id,name,pageable);
+    }
+
+    @GetMapping("/category/desc/{id}/{name}")
+    public List<Product_Category_Supplier> findByCategoryAndNameLikeDesc(@PathVariable Long id, @PathVariable String name,
+                                                                        @RequestParam int page, @RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByCategoryAndNameLikeDesc(id,name,pageable);
+    }
+
     @GetMapping("/category/{idCategory}/supplier/{idSupplier}")
     public List<Product_Category_Supplier> findByCategoryAndSupplier(@PathVariable Long idCategory, @PathVariable Long idSupplier,
                                                                      @RequestParam int page, @RequestParam int limit){

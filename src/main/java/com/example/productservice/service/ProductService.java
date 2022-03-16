@@ -21,4 +21,17 @@ public interface ProductService {
     List<Product_Category_Supplier>findByCategoryAndSupplierAndName(Long idCategory, Long idSupplier,String name,Pageable pageable);
 
     List<Product_Category_Supplier> findTop3ProductByviewNumber();
+
+    List<Product_Category_Supplier> findAllOrderPriceAsc(Pageable pageable);
+    List<Product_Category_Supplier> findAllOrderPriceDesc(Pageable pageable);
+
+    List<Product_Category_Supplier> findByCategoryidAsc(Long categoryId, Pageable pageable);
+    List<Product_Category_Supplier> findByCategoryDesc(Long categoryId, Pageable pageable);
+
+
+    List<Product_Category_Supplier> findByCategoryAndNameLikeAsc(Long categoryId,String name, Pageable pageable);
+    List<Product_Category_Supplier> findByCategoryAndNameLikeDesc(Long categoryId,String name, Pageable pageable);
+
+    List<Product_Category_Supplier> findByNameAsc(String name, Pageable pageable);
+    List<Product_Category_Supplier> findByNameDesc(String name, Pageable pageable);
 }
