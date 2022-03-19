@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product_Category_Supplier> findAll(Pageable pageable) {
         List<Product_Category_Supplier> list= new ArrayList<>();
-        List<Product> listProduct =  repository.findAll(pageable).getContent();
+        List<Product> listProduct =  repository.findByDeletedAtIsNull(pageable);
         return getProduct_category_suppliers(list, listProduct);
     }
 
