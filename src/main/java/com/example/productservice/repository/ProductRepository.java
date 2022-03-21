@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByDeletedAtIsNull(Pageable pageable);
+    List<Product> findByDeletedAtIsNullOrderByUpdatedAtDesc(Pageable pageable);
     List<Product> findByCategoryIdAndDeletedAtIsNull(Long id, Pageable pageable);
     List<Product> findBySupplierIdAndDeletedAtIsNull(Long id, Pageable pageable);
 
@@ -28,10 +29,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
     List<Product> findByCategoryIdAndNameContainingAndDeletedAtIsNull(Long id,String name, Pageable pageable);
+    List<Product> findBySupplierIdAndNameContainingAndDeletedAtIsNull(Long id,String name, Pageable pageable);
+
 
     List<Product> findByCategoryIdAndSupplierIdAndDeletedAtIsNull(Long idCategory,Long idSupplier, Pageable pageable);
     List<Product> findByCategoryIdAndSupplierIdAndNameContainingAndDeletedAtIsNull(Long idCategory,Long idSupplier, String name,Pageable pageable);
 
-    @Query(value = "SELECT *  FROM productdb.product order by view_number desc limit 3", nativeQuery = true)
+    @Query(value = "SELECT *  FROM productdb.product where deleted_at is null order by view_number desc limit 3 ", nativeQuery = true)
     List<Product> findTop3ProductByviewNumber();
 }

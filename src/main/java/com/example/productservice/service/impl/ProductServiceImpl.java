@@ -63,6 +63,14 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList= repository.findByCategoryIdAndNameContainingAndDeletedAtIsNull(categoryId,name,pageable);
         return getProduct_category_suppliers(list, productList);
     }
+
+    @Override
+    public List<Product_Category_Supplier> findBySupplierAndNameLike(Long categoryId, String name, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList= repository.findBySupplierIdAndNameContainingAndDeletedAtIsNull(categoryId,name,pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
     @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findBySupplierId(Long id, Pageable pageable) {
@@ -75,9 +83,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product_Category_Supplier addProduct(Product product) {
         product.setCreatedAt(new Date());
+        product.setUpdatedAt(new Date());
         Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+product.getCategoryId(),Category.class) ;
         Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+product.getSupplierId(),Supplier.class);
         if(category != null && supplier !=null){
+
             Product p = repository.save(product);
             return new Product_Category_Supplier(p,category,supplier);
 
@@ -85,10 +95,17 @@ public class ProductServiceImpl implements ProductService {
         return  null;
     }
 
+    @Override
+    public List<Product_Category_Supplier> findByDeletedAtIsNulldOrderByUpdatedAtDesc(Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList= repository.findByDeletedAtIsNullOrderByUpdatedAtDesc(pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
     @Retry(name = "basic")
     @Override
     public Product_Category_Supplier update(Product product) {
-
+        product.setUpdatedAt(new Date());
         Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+product.getCategoryId(),Category.class) ;
         Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+product.getSupplierId(),Supplier.class);
         if(category != null && supplier !=null){

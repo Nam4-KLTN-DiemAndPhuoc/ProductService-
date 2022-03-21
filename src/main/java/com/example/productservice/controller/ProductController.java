@@ -21,7 +21,11 @@ public class ProductController {
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findAll(pageable);
     }
-
+    @GetMapping("/order/desc")
+    public List<Product_Category_Supplier> findAllByUpdatedAt(@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByDeletedAtIsNulldOrderByUpdatedAtDesc(pageable);
+    }
     @GetMapping("/asc")
     public List<Product_Category_Supplier> findAllAsc(@RequestParam int page,@RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
@@ -85,6 +89,12 @@ public class ProductController {
                                                    @RequestParam int page, @RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryAndNameLike(id,name,pageable);
+    }
+    @GetMapping("/supplier/{id}/{name}")
+    public List<Product_Category_Supplier> findBySupplierAndNameLike(@PathVariable Long id, @PathVariable String name,
+                                                                     @RequestParam int page, @RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findBySupplierAndNameLike(id,name,pageable);
     }
 
     @GetMapping("/category/asc/{id}/{name}")
