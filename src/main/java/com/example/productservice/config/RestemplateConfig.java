@@ -9,7 +9,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 @Configuration
 public class RestemplateConfig {
     @Bean
-//    @LoadBalanced
+    @LoadBalanced
     public RestTemplate restTemplate() {
         RestTemplate restTemplate= new RestTemplate();
         DefaultUriBuilderFactory builderFactory= new DefaultUriBuilderFactory("");

@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/attribute")
+@CrossOrigin
 public class AttributeController {
 
     @Autowired
