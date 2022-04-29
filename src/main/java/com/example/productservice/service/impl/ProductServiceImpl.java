@@ -166,7 +166,7 @@ public class ProductServiceImpl implements ProductService {
         System.out.println("");
         List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
         List<Product> productList=repository.findTop3ProductByviewNumber();
-        System.out.println("ss"+ productList.get(1));
+        System.out.println("ss"+ productList.size());
         return getProduct_category_suppliers(list,productList);
     }
 
