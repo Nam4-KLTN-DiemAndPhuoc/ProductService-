@@ -28,7 +28,10 @@ public class AdminController {
     public Product_Category_Supplier update(@RequestBody Product product){
         return service.update(product);
     }
-
+    @GetMapping("/{id}")
+    public Product_Category_Supplier findByProductId(@PathVariable Long id){
+        return service.findByProductId(id);
+    }
     @PostMapping("/product/delete/{id}")
     public Product delete(@PathVariable Long id, @RequestBody Long idUser){
         return service.delete(id,idUser);

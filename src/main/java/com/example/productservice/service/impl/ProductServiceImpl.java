@@ -40,6 +40,21 @@ public class ProductServiceImpl implements ProductService {
 
         return repository.save(product);
     }
+
+    @Override
+    public Product_Category_Supplier findByProductId(Long id) {
+        Product product= repository.findById(id).get();
+        Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+product.getCategoryId(),Category.class) ;
+        Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+product.getSupplierId(),Supplier.class);
+        if(category != null && supplier !=null){
+
+            Product p = repository.save(product);
+            return new Product_Category_Supplier(p,category,supplier);
+
+        }
+        return  null;
+    }
+
     @Retry(name = "basic")
     @Override
     public List<Product_Category_Supplier> findByName(String name, Pageable pageable) {

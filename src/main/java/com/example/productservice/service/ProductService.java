@@ -10,6 +10,8 @@ import java.util.List;
 public interface ProductService {
     List<Product_Category_Supplier> findAll(Pageable pageable);
     Product findById(Long id);
+    Product_Category_Supplier findByProductId(Long id);
+
     List<Product_Category_Supplier> findByCategoryid(Long categoryId, Pageable pageable);
     List<Product_Category_Supplier> findByName(String name, Pageable pageable);
     List<Product_Category_Supplier> findByCategoryAndNameLike(Long categoryId,String name, Pageable pageable);

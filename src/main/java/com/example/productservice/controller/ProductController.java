@@ -66,6 +66,7 @@ public class ProductController {
         return service.findById(id);
     }
 
+
     @GetMapping("/search")
     public List<Product_Category_Supplier> findByName(@RequestParam String name,@RequestParam int page,@RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
