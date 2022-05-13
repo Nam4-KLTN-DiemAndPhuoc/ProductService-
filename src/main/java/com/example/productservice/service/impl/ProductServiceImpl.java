@@ -99,6 +99,8 @@ public class ProductServiceImpl implements ProductService {
     public Product_Category_Supplier addProduct(Product product) {
         product.setCreatedAt(new Date());
         product.setUpdatedAt(new Date());
+        product.setAmountComment(0);
+        product.setPoint(0F);
         Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+product.getCategoryId(),Category.class) ;
         Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+product.getSupplierId(),Supplier.class);
         if(category != null && supplier !=null){

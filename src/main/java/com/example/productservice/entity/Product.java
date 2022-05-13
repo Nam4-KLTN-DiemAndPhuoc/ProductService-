@@ -54,4 +54,8 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<Attribute> attributeList;
+
+    private int amountComment;
+
+    private float point;
 }
