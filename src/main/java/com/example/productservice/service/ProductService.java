@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ProductService {
     List<Product_Category_Supplier> findAll(Pageable pageable);
+    List<Product_Category_Supplier> findByDeletedAt(Pageable pageable);
+
     Product findById(Long id);
     Product_Category_Supplier findByProductId(Long id);
 

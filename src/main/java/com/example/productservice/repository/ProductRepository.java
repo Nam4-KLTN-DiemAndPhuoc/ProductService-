@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByDeletedAtIsNull(Pageable pageable);
+    List<Product> findByDeletedAtIsNotNull(Pageable pageable);
+
     List<Product> findByDeletedAtIsNullOrderByUpdatedAtDesc(Pageable pageable);
     List<Product> findByCategoryIdAndDeletedAtIsNull(Long id, Pageable pageable);
     List<Product> findBySupplierIdAndDeletedAtIsNull(Long id, Pageable pageable);

@@ -33,6 +33,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product_Category_Supplier> findByDeletedAt(Pageable pageable) {
+        List<Product_Category_Supplier> list= new ArrayList<>();
+        List<Product> listProduct =  repository.findByDeletedAtIsNotNull(pageable);
+        return getProduct_category_suppliers(list, listProduct);
+    }
+
+    @Override
     public Product findById(Long id) {
          Product product= repository.findById(id).get();
          product.setViewNumber(product.getViewNumber()+1);
@@ -104,7 +111,6 @@ public class ProductServiceImpl implements ProductService {
         Category category=restTemplate.getForObject(Constants.CATEGORY +"/"+product.getCategoryId(),Category.class) ;
         Supplier supplier =restTemplate.getForObject(Constants.SUPPLIER+"/"+product.getSupplierId(),Supplier.class);
         if(category != null && supplier !=null){
-
             Product p = repository.save(product);
             return new Product_Category_Supplier(p,category,supplier);
 
@@ -139,9 +145,16 @@ public class ProductServiceImpl implements ProductService {
         Product product= repository.findById(id).get();
 
         if(product != null ){
-            product.setDeletedAt(new Date());
-            product.setDeletedBy(idUser);
-            Product p= repository.save(product);
+            if( product.getDeletedAt()==null){
+                product.setDeletedAt(new Date());
+                product.setDeletedBy(idUser);
+                Product p= repository.save(product);
+            }else{
+                product.setDeletedAt(null);
+                product.setDeletedBy(null);
+                Product p= repository.save(product);
+            }
+
 
         }
         return product;

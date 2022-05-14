@@ -6,6 +6,8 @@ import com.example.productservice.service.AttributeService;
 import com.example.productservice.service.ProductService;
 import com.example.productservice.vo.Product_Category_Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +25,11 @@ public class AdminController {
     @PostMapping("/product/add")
     public Product_Category_Supplier add(@RequestBody Product product){
         return service.addProduct(product);
+    }
+    @GetMapping("/product-delete")
+    public List<Product_Category_Supplier> findByDeletedAt(  @RequestParam int page, @RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByDeletedAt(pageable);
     }
 
     @PostMapping("/product/update")
