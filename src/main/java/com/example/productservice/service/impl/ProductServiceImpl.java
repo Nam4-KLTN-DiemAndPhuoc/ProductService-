@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product_Category_Supplier> findByDeletedAt(Pageable pageable) {
         List<Product_Category_Supplier> list= new ArrayList<>();
-        List<Product> listProduct =  repository.findByDeletedAtIsNotNull(pageable);
+        List<Product> listProduct =  repository.findByDeletedAtIsNotNullOrderByDeletedAtDesc(pageable);
         return getProduct_category_suppliers(list, listProduct);
     }
 
@@ -238,6 +238,58 @@ public class ProductServiceImpl implements ProductService {
     public List<Product_Category_Supplier> findByNameDesc(String name, Pageable pageable) {
         List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
         List<Product> productList = repository.findProductsByNameContainingAndDeletedAtIsNullOrderByPriceDesc(name, pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByCategoryidDeleted(Long categoryId, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findByCategoryIdAndDeletedAtIsNotNull(categoryId, pageable);
+        return getProduct_category_suppliers(list, productList);
+
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByNameDeleted(String name, Pageable pageable) {
+
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findByNameContainingAndDeletedAtIsNotNull(name, pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByCategoryAndNameLikeDeleted(Long categoryId, String name, Pageable pageable) {
+
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findByCategoryIdAndNameContainingAndDeletedAtIsNotNull(categoryId,name, pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findBySupplierAndNameLikeDeleted(Long categoryId, String name, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findBySupplierIdAndNameContainingAndDeletedAtIsNotNull(categoryId,name, pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findBySupplierIdDeleted(Long id, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findBySupplierIdAndDeletedAtIsNotNull(id, pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByCategoryIdAndSupplierIdDeleted(Long idCategory, Long idSupplier, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findByCategoryIdAndSupplierIdAndDeletedAtIsNotNull(idCategory,idSupplier, pageable);
+        return getProduct_category_suppliers(list, productList);
+    }
+
+    @Override
+    public List<Product_Category_Supplier> findByCategoryAndSupplierAndNameDeleted(Long idCategory, Long idSupplier, String name, Pageable pageable) {
+        List<Product_Category_Supplier> list = new ArrayList<Product_Category_Supplier>();
+        List<Product> productList = repository.findByCategoryIdAndSupplierIdAndNameContainingAndDeletedAtIsNotNull(idCategory,idSupplier,name, pageable);
         return getProduct_category_suppliers(list, productList);
     }
 

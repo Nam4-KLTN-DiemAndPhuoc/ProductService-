@@ -45,6 +45,11 @@ public class ProductController {
         return service.findByCategoryid(id, pageable);
     }
 
+    @GetMapping("/category-deleted/{id}")
+    public List<Product_Category_Supplier> findByCategoryDeleted(@PathVariable Long id,@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByCategoryidDeleted(id, pageable);
+    }
     @GetMapping("/category/asc/{id}")
     public List<Product_Category_Supplier> findByCategoryAsc(@PathVariable Long id,@RequestParam int page,@RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
@@ -62,6 +67,11 @@ public class ProductController {
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findBySupplierId(id, pageable);
     }
+    @GetMapping("/supplier-deleted/{id}")
+    public List<Product_Category_Supplier> findBySupplierIdDeleted(@PathVariable Long id,@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findBySupplierIdDeleted(id, pageable);
+    }
     @GetMapping("/{id}")
     public Product findByid(@PathVariable Long id){
         return service.findById(id);
@@ -72,6 +82,11 @@ public class ProductController {
     public List<Product_Category_Supplier> findByName(@RequestParam String name,@RequestParam int page,@RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByName(name,pageable);
+    }
+    @GetMapping("/search-deleted")
+    public List<Product_Category_Supplier> findByNameDeleted(@RequestParam String name,@RequestParam int page,@RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByNameDeleted(name,pageable);
     }
 
     @GetMapping("/search/asc")
@@ -92,11 +107,23 @@ public class ProductController {
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryAndNameLike(id,name,pageable);
     }
+    @GetMapping("/deleted-category/{id}/{name}")
+    public List<Product_Category_Supplier> findByCategoryAndNameLikeDeleted(@PathVariable Long id, @PathVariable String name,
+                                                                     @RequestParam int page, @RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByCategoryAndNameLikeDeleted(id,name,pageable);
+    }
     @GetMapping("/supplier/{id}/{name}")
     public List<Product_Category_Supplier> findBySupplierAndNameLike(@PathVariable Long id, @PathVariable String name,
                                                                      @RequestParam int page, @RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findBySupplierAndNameLike(id,name,pageable);
+    }
+    @GetMapping("/deleted-supplier/{id}/{name}")
+    public List<Product_Category_Supplier> findBySupplierAndNameLikeDeleted(@PathVariable Long id, @PathVariable String name,
+                                                                     @RequestParam int page, @RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findBySupplierAndNameLikeDeleted(id,name,pageable);
     }
 
     @GetMapping("/category/asc/{id}/{name}")
@@ -119,12 +146,24 @@ public class ProductController {
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryIdAndSupplierId(idCategory,idSupplier,pageable);
     }
+    @GetMapping("/category-deleted/{idCategory}/supplier-deleted/{idSupplier}")
+    public List<Product_Category_Supplier> findByCategoryIdAndSupplierIdDeleted(@PathVariable Long idCategory, @PathVariable Long idSupplier,
+                                                                     @RequestParam int page, @RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByCategoryIdAndSupplierIdDeleted(idCategory,idSupplier,pageable);
+    }
 
     @GetMapping("/category/{idCategory}/supplier/{idSupplier}/name")
     public List<Product_Category_Supplier> findByCategoryAndSupplierAndName(@PathVariable Long idCategory, @PathVariable Long idSupplier, @RequestParam String name,
                                                                      @RequestParam int page, @RequestParam int limit){
         Pageable pageable= PageRequest.of(page-1, limit);
         return service.findByCategoryAndSupplierAndName(idCategory,idSupplier,name,pageable);
+    }
+    @GetMapping("/deleted-category/{idCategory}/deleted-supplier/{idSupplier}/name")
+    public List<Product_Category_Supplier> findByCategoryAndSupplierAndNameDeleted(@PathVariable Long idCategory, @PathVariable Long idSupplier, @RequestParam String name,
+                                                                            @RequestParam int page, @RequestParam int limit){
+        Pageable pageable= PageRequest.of(page-1, limit);
+        return service.findByCategoryAndSupplierAndNameDeleted(idCategory,idSupplier,name,pageable);
     }
 
     @GetMapping("/top3")
