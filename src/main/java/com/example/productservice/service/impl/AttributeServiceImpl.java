@@ -33,4 +33,9 @@ public class AttributeServiceImpl implements AttributeService {
     public Attribute findById(Long id) {
         return repository.findById(id).get();
     }
+
+    @Override
+    public Attribute update(Attribute attribute) {
+        return repository.save(attribute);
+    }
 }

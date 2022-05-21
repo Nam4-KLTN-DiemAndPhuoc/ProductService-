@@ -9,4 +9,5 @@ public interface AttributeService {
     List<Attribute> updateAttribute(List<Attribute> attributes);
     List<Attribute> findByProduct(Long id);
     Attribute findById(Long id);
+    Attribute update(Attribute attribute);
 }

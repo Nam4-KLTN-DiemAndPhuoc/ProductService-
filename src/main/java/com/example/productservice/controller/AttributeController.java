@@ -25,5 +25,10 @@ public class AttributeController {
         return  service.findById(id);
     }
 
+    @PostMapping("/update")
+    public  Attribute update(@RequestBody Attribute attribute){
+        return service.update(attribute);
+    }
+
 
 }
